@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<div class="container"><div class="handle"></div></div>
+
+<style>
+    .container{background:#CCC;width:200px;height:100px;position:relative;overflow:hidden;}
+.handle{cursor:e-resize;height:100px;width:2px;position:absolute;top:0;right:0;background:red;}
+</style>
+
+<script>
+var handle = null;
+
+$(".handle").on('mousedown touchstart', function(e){
+    handle = {
+        x : e.pageX,
+        p : $(this).parent(),
+        pw: $(this).parent().width()
+    };
+
+    if (e.originalEvent.touches){ //e.touches
+        handle.x = e.originalEvent.touches[0].pageX //e.touches[0]
+    }
+
+    e.preventDefault();
+});
+
+$(document).on({
+    'mousemove touchmove':function(e){
+        if(handle) {
+            if (e.originalEvent.touches){ //e.touches
+                handle.p.width(handle.pw+(e.originalEvent.touches[0].pageX - handle.x));  //e.touches[0]               
+            }else{
+                handle.p.width(handle.pw+(e.pageX - handle.x));                    
+            }
+        }
+        e.preventDefault();
+    },
+    'mouseup touchend':function(e){
+        handle = null;
+        e.preventDefault();
+    }
+});
+</script>
