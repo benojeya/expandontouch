@@ -1,44 +1,35 @@
 <!DOCTYPE html>
 
-<div class="container"><div class="handle"></div></div>
+<div class="outer">
+    <div id="changeMe">
+        Some Content
+    </div>
+</div>
 
 <style>
-    
-    .container{background:#CCC;width:200px;height:100px;position:relative;overflow:hidden;}
-.handle{cursor:e-resize;height:100px;width:2px;position:absolute;top:0;right:0;background:red;}
+     .outer{width:500px; height:200px; overflow:hidden; }
+     #changeMe {width:1000px; height: 200px;}
 </style>
 
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 <script>
-var handle = null;
-
-$(".handle").on('gesturestart mousedown touchstart', function(e){
-    handle = {
-        x : e.pageX,
-        p : $(this).parent(),
-        pw: $(this).parent().width()
-    };
-
-    if (e.originalEvent.touches){ //e.touches
-        handle.x = e.originalEvent.touches[0].pageX //e.touches[0]
-    }
-
-    e.preventDefault();
+    $(document).bind('touchmove' ,function(event) {
+        if (isDragging)
+        {
+            var difference = event.originalEvent.targetTouches[0].pageX - oldXPos;
+            $('#changeMe').css({width: '+='+ difference});
+        }
+        oldXPos = event.originalEvent.targetTouches[0].pageX;
+        $('#changeMe').bind('touchstart', function(){isDragging = true;})
+        $('#changeMe').bind('touchend', function(){isDragging = false;})
 });
 
-$(document).on({
-    'gesturechange mousemove touchmove':function(e){
-        if(handle) {
-            if (e.originalEvent.touches){ //e.touches
-                handle.p.width(handle.pw+(e.originalEvent.touches[0].pageX - handle.x));  //e.touches[0]               
-            }else{
-                handle.p.width(handle.pw+(e.pageX - handle.x));                    
-            }
-        }
-        e.preventDefault();
-    },
-    'gestureend mouseup touchend':function(e){
-        handle = null;
-        e.preventDefault();
-    }
+$(document).ready(function(){
+     $('#changeMe').bind('touchstart', function(event){
+        oldXPos = event.originalEvent.targetTouches[0].pageX;
+            $('body').bind('touchmove', function(e){e.preventDefault()});
+     });
 });
 </script>
