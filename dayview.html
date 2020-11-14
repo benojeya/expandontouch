@@ -1,62 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
+
+<div id="container">
+    
+    <div id="events" class="timings-event">
+            <!-- <div id="drop_zone" ondragover="return false"></div>
+            <div id = "dragevent" class="event" draggable="true" >Meeting with UI project team</div> -->
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty red">
+                    <div id="expand"></div>
+                </div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            
+          </div>
+
+        </div></div>
+   <style>
+   
+   body{
+  padding: 1rem;
+  text-align:center;
+}
+div {
+  margin: auto;
+  height: 800px;
+  width: 500px;
+  border: 1px solid black;
+  overflow: auto;
+}
+.day-view{
+  display: flex;
+  height: 600px;
+  width: 500px;
+  border: 1px solid black;
+  overflow: auto;
+  z-index: 1;}
+
+
+.day-view-empty{
+  border-bottom-color: #b5c0cd;
+  background: white;
+  height:60px;
+  border-width: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+  border-color: #D1D1D1;
+
 }
 
-.active, .collapsible:hover {
-  background-color: #555;
+
+#expand{
+border-bottom-color: #b5c0cd;
+  background: pink;
+  height:60px;
+  border-width: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+  border-color: #D1D1D1;
+  will-change: height;
+
+
 }
 
-.content {
-  padding: 0 18px;
-  display: none;
+#container {
   overflow: hidden;
-  background-color: #f1f1f1;
 }
-</style>
-</head>
-<body>
+div.red {
+  background: red;
+  overflow: hidden;
+}
 
-<h2>Collapsibles</h2>
-
-<p>A Collapsible:</p>
-<button type="button" class="collapsible">Open Collapsible</button>
-<div class="content">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-</div>
-
+   </style>
 
 
 <script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
+
+var expandDiv = document.getElementById("expand");
+var eventsDiv = document.getElementById("events");
+
+var speed = 6;
+        
+        function expanding() {
+          var scrolltop = eventsDiv.scrollTop; // get number of pixels document has scrolled vertically
+          var scrollAndSpeed = (scrolltop);
+          //Expand using transform
+          //expandDiv.style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";
+          
+          //Or using width
+          //expandDiv.style.height = Math.min(Math.max(scrollAndSpeed, 60), 195) + "%";
+          expandDiv.parentNode.style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px";
+
+        
+          expandDiv.style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px";
+        
+        }
+        
+        eventsDiv.addEventListener('scroll', function() { // on page scroll
+          requestAnimationFrame(expanding); // call parallaxing()
+        }, false);  
+
 </script>
-
-</body>
-</html>
-
-
